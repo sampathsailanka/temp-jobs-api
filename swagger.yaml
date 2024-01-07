@@ -4,25 +4,30 @@ info:
   contact: {}
   version: '1.0'
 servers:
-  - url: https://jobs-api-06.herokuapp.com/api/v1
-    variables: {}
+- url: https://temp-jobs-api-54dq.onrender.com/api/v1
+  variables: {}
 paths:
   /auth/register:
     post:
       tags:
-        - Auth
-      summary: Register User
-      operationId: RegisterUser
+      - Auth
+      summary: REGISTER USER
+      operationId: REGISTERUSER
       parameters: []
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegisterUserRequest'
+              allOf:
+              - $ref: '#/components/schemas/REGISTERUSERREQUEST'
+              - example:
+                  name: akhileesh
+                  email: akhileesh@gmail.com
+                  password: secret
             example:
-              name: bob
-              email: bob@gmail.com
+              name: akhileesh
+              email: akhileesh@gmail.com
               password: secret
         required: true
       responses:
@@ -34,18 +39,22 @@ paths:
   /auth/login:
     post:
       tags:
-        - Auth
-      summary: Login User
-      operationId: LoginUser
+      - Auth
+      summary: LOGIN USER
+      operationId: LOGINUSER
       parameters: []
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginUserRequest'
+              allOf:
+              - $ref: '#/components/schemas/LOGINUSERREQUEST'
+              - example:
+                  email: akhileesh@gmail.com
+                  password: secret
             example:
-              email: susan@gmail.com
+              email: akhileesh@gmail.com
               password: secret
         required: true
       responses:
@@ -57,36 +66,44 @@ paths:
   /jobs:
     post:
       tags:
-        - Jobs
-      summary: Create Job
-      operationId: CreateJob
+      - Jobs
+      summary: CREATE JOB
+      operationId: CREATEJOB
       parameters: []
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateJobRequest'
+              allOf:
+              - $ref: '#/components/schemas/CREATEJOBREQUEST'
+              - example:
+                  company: WizardTales
+                  position: Front End Developer
             example:
-              company: google
-              position: front-end developer
+              company: WizardTales
+              position: Front End Developer
         required: true
       responses:
         '200':
           description: ''
           headers: {}
       deprecated: false
+      security:
+      - bearer: []
     get:
       tags:
-        - Jobs
-      summary: Get All Jobs
-      operationId: GetAllJobs
+      - Jobs
+      summary: GET ALL JOBS
+      operationId: GETALLJOBS
       parameters: []
       responses:
         '200':
           description: ''
           headers: {}
       deprecated: false
+      security:
+      - bearer: []
   /jobs/{id}:
     parameters:
       - in: path
@@ -95,58 +112,54 @@ paths:
           type: string
         required: true
         description: The job ID
-    get:
-      tags:
-        - Jobs
-      summary: Get Single Job
-      operationId: GetSingleJob
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-
     patch:
       tags:
-        - Jobs
-      summary: Update Job
-      operationId: UpdateJob
+      - Jobs
+      summary: UPDATE JOB
+      operationId: UPDATEJOB
       parameters: []
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateJobRequest'
+              allOf:
+              - $ref: '#/components/schemas/UPDATEJOBREQUEST'
+              - example:
+                  company: WX-One
+                  position: Data Enginerx
             example:
-              company: random
-              position: intern
+              company: WX-One
+              position: Data Enginerx
         required: true
       responses:
         '200':
           description: ''
           headers: {}
       deprecated: false
+      security:
+      - bearer: []
     delete:
       tags:
-        - Jobs
-      summary: Delete Job
-      operationId: DeleteJob
+      - Jobs
+      summary: DELETE JOB
+      operationId: DELETEJOB
       parameters: []
       responses:
         '200':
           description: ''
           headers: {}
       deprecated: false
+      security:
+      - bearer: []
 components:
   schemas:
-    RegisterUserRequest:
-      title: RegisterUserRequest
+    REGISTERUSERREQUEST:
+      title: REGISTERUSERREQUEST
       required:
-        - name
-        - email
-        - password
+      - name
+      - email
+      - password
       type: object
       properties:
         name:
@@ -156,14 +169,14 @@ components:
         password:
           type: string
       example:
-        name: bob
-        email: bob@gmail.com
+        name: akhileesh
+        email: akhileesh@gmail.com
         password: secret
-    LoginUserRequest:
-      title: LoginUserRequest
+    LOGINUSERREQUEST:
+      title: LOGINUSERREQUEST
       required:
-        - email
-        - password
+      - email
+      - password
       type: object
       properties:
         email:
@@ -171,13 +184,13 @@ components:
         password:
           type: string
       example:
-        email: susan@gmail.com
+        email: akhileesh@gmail.com
         password: secret
-    CreateJobRequest:
-      title: CreateJobRequest
+    CREATEJOBREQUEST:
+      title: CREATEJOBREQUEST
       required:
-        - company
-        - position
+      - company
+      - position
       type: object
       properties:
         company:
@@ -185,13 +198,13 @@ components:
         position:
           type: string
       example:
-        company: google
-        position: front-end developer
-    UpdateJobRequest:
-      title: UpdateJobRequest
+        company: WizardTales
+        position: Front End Developer
+    UPDATEJOBREQUEST:
+      title: UPDATEJOBREQUEST
       required:
-        - company
-        - position
+      - company
+      - position
       type: object
       properties:
         company:
@@ -199,16 +212,15 @@ components:
         position:
           type: string
       example:
-        company: random
-        position: intern
+        company: WX-One
+        position: Data Enginerx
   securitySchemes:
-    httpBearer:
+    bearer:
       type: http
       scheme: bearer
-security:
-  - httpBearer: []
+security: []
 tags:
-  - name: Auth
-    description: ''
-  - name: Jobs
-    description: ''
+- name: Auth
+  description: ''
+- name: Jobs
+  description: ''
